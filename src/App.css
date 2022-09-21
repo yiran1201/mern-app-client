@@ -18,7 +18,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom:12px
+  margin-bottom: 12px;
 }
 
 .form input[type='text'] {
@@ -54,27 +54,22 @@
   align-items: center;
   margin-bottom: 10px;
 }
-.item-content{
-  width:60%
+.item-content {
+  width: 60%;
 }
-.todo-item button{
-  border:none;
-  border-radius:6px;
+.todo-item button {
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  padding:8px
-}
-.todo-item button:focus{
-  outline:none
+  padding: 8px;
 }
 
-.update-item{
-  background-color:goldenrod;
-  color:#fff
-
+.update-item {
+  background-color: goldenrod;
+  color: #fff;
 }
 
-.delete-item{
-  background-color:red;
-  color:#fff
-
+.delete-item {
+  background-color: red;
+  color: #fff;
 }

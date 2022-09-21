@@ -26,7 +26,7 @@ function App() {
   const addItem = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${ORIGIN}/item`, {item: itemText});
+      const res = await axios.post(`${ORIGIN}/item`, {text: itemText});
       console.log(res);
       setItemText('');
     } catch (err) {
@@ -63,13 +63,13 @@ function App() {
         <button type='submit'>Add</button>
       </form>
       <div className='todo-listItems'>
-        {listItems.map((item, i) => (
+        {listItems.map((data, i) => (
           <div className='todo-item' key={i}>
-            <p className='item-content'>{item.item}</p>
+            <p className='item-content'>{data.text}</p>
             <button className='update-item'>Update</button>
             <button
               className='delete-item'
-              onClick={() => deleteItem(item._id)}>
+              onClick={() => deleteItem(data._id)}>
               Delete
             </button>
           </div>
