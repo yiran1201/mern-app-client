@@ -1,7 +1,6 @@
 import './App.css';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
-import {render} from 'react-dom';
 
 const ORIGIN = 'http://localhost:5500/api';
 
@@ -87,13 +86,15 @@ function App() {
                   className='update-item'
                   key={i}
                   onClick={() => {
-                    setIsUpdating(data.id);
-                  }}>
+                    setIsUpdating(data._id);
+                  }}
+                >
                   Update
                 </button>
                 <button
                   className='delete-item'
-                  onClick={() => deleteItem(data._id)}>
+                  onClick={() => deleteItem(data._id)}
+                >
                   Delete
                 </button>
               </>
