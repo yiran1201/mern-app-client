@@ -9,6 +9,7 @@ function App() {
   const [itemText, setItemText] = useState('');
   const [listItems, setListItems] = useState([]);
   const [isUpdating, setIsUpdating] = useState('');
+  const [updateItemText, setUpdateItemText] = useState('');
 
   //Create function to fetch all todo items from database -- we will use useEffect hook
   useEffect(() => {
@@ -49,11 +50,41 @@ function App() {
     }
   };
 
+  const updateItem = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.put(`${ORIGIN}/item/${isUpdating}`, {
+        item: updateItemText,
+      });
+
+      console.log(res.data);
+      const updatedItemIndex = listItems.findIndex(
+        (text) => text._id === isUpdating
+      );
+      const updatedItem = listItems[updatedItemIndex].text = updateItemText;
+      setUpdateItemText('');
+      setIsUpdating('');
+    } catch (err) {
+      console.log(err);
+    }
+  };
   // Update item
   // before updating item we need to show input field where we will create our updated item
   const renderUpdateForm = () => (
-    <form className='update-form'>
-      <input className='update-new-input' type='text' placeholder='New Item' />
+    <form
+      className='update-form'
+      onSubmit={(e) => {
+        updateItem(e);
+      }}>
+      <input
+        className='update-new-input'
+        type='text'
+        placeholder='New Item'
+        onChange={(e) => {
+          setUpdateItemText(e.target.value);
+        }}
+        value={updateItemText}
+      />
       <button className='update-new-btn' type='submit'>
         Update
       </button>
@@ -87,14 +118,12 @@ function App() {
                   key={i}
                   onClick={() => {
                     setIsUpdating(data._id);
-                  }}
-                >
+                  }}>
                   Update
                 </button>
                 <button
                   className='delete-item'
-                  onClick={() => deleteItem(data._id)}
-                >
+                  onClick={() => deleteItem(data._id)}>
                   Delete
                 </button>
               </>

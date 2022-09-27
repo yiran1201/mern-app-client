@@ -73,3 +73,23 @@
   background-color: red;
   color: #fff;
 }
+
+.update-form{
+ display: flex;
+ justify-content:space-between;
+ width:100%
+}
+
+.update-new-input{
+  width: 88%;
+  border-radius:6px;
+  border:1px solid #eee;
+  padding:8px;
+  outline:none
+}
+
+.update-new-btn{
+  background-color: darkorchid;
+  color:#fff;
+  cursor:pointer
+}
