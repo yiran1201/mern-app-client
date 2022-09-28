@@ -8,7 +8,7 @@ function App() {
   //add new todo item to database
   const [itemText, setItemText] = useState('');
   const [listItems, setListItems] = useState([]);
-  const [isUpdating, setIsUpdating] = useState('');
+  const [selectedId, setSelectedId] = useState('');
   const [updateItemText, setUpdateItemText] = useState('');
 
   //Create function to fetch all todo items from database -- we will use useEffect hook
@@ -53,17 +53,21 @@ function App() {
   const updateItem = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.put(`${ORIGIN}/item/${isUpdating}`, {
-        item: updateItemText,
-      });
+      // Update item in Backend
+      await axios.put(`${ORIGIN}/item/${selectedId}`, {text: updateItemText});
 
-      console.log(res.data);
-      const updatedItemIndex = listItems.findIndex(
-        (text) => text._id === isUpdating
-      );
-      const updatedItem = listItems[updatedItemIndex].text = updateItemText;
+      // Fast update in Frontend
+      const newListItems = [...listItems]; // make a copy
+      for (const item of newListItems) {
+        if (item._id === selectedId) {
+          item.text = updateItemText;
+        }
+      }
+      setListItems(newListItems);
+
+      // Reset input
       setUpdateItemText('');
-      setIsUpdating('');
+      setSelectedId('');
     } catch (err) {
       console.log(err);
     }
@@ -75,7 +79,8 @@ function App() {
       className='update-form'
       onSubmit={(e) => {
         updateItem(e);
-      }}>
+      }}
+    >
       <input
         className='update-new-input'
         type='text'
@@ -108,7 +113,7 @@ function App() {
       <div className='todo-listItems'>
         {listItems.map((data, i) => (
           <div className='todo-item' key={i}>
-            {isUpdating === data._id ? (
+            {selectedId === data._id ? (
               renderUpdateForm()
             ) : (
               <>
@@ -117,13 +122,15 @@ function App() {
                   className='update-item'
                   key={i}
                   onClick={() => {
-                    setIsUpdating(data._id);
-                  }}>
+                    setSelectedId(data._id);
+                  }}
+                >
                   Update
                 </button>
                 <button
                   className='delete-item'
-                  onClick={() => deleteItem(data._id)}>
+                  onClick={() => deleteItem(data._id)}
+                >
                   Delete
                 </button>
               </>
